@@ -1,0 +1,42 @@
+# Evo2 预处理配置 (Evo2PreprocessingConfig)
+# 将 FASTA 文件转换为 Megatron 兼容的 .bin/.idx 二进制格式
+#
+# 官方文档: https://docs.nvidia.com/bionemo-framework/2.6/API_reference/bionemo/evo2/data/preprocess/
+# 参考: HPI-Potsdam 使用 embed_reverse_complement: true, force_uppercase: true
+
+# ---- 输入/输出 ----
+- datapaths:
+    - /workspace/evo_fine_tune/data/raw/opengenome2_sample.fasta
+  output_dir: /workspace/evo_fine_tune/data/processed
+  output_prefix: evo2_finetune_uint8
+
+  # ---- 数据划分 ----
+  train_split: 0.8
+  valid_split: 0.1
+  test_split: 0.1
+
+  # ---- 序列处理 ----
+  force_uppercase: true           # 统一转大写
+  embed_reverse_complement: false # 是否在数据中嵌入反向互补 (HPI 设为 true)
+  random_reverse_complement: 0.0  # 随机反向互补增强概率 (0.0 = 不使用)
+  nnn_filter: false               # 是否过滤含 N 的序列
+  drop_empty_sequences: false     # 是否丢弃空序列
+  append_eod: true                # 序列末尾添加 EOD token
+
+  # ---- Tokenizer ----
+  vocab_size: 512                 # Evo2 char-level tokenizer
+  indexed_dataset_dtype: uint8    # 输出数据类型
+
+  # ---- 性能 ----
+  workers: 1                      # 短序列(<1000bp)用 1, 长序列可增大
+  preproc_concurrency: 100000     # 并发处理数
+
+  # ---- 其他 ----
+  overwrite: false
+  seed: 42
+  transcribe: null                # null / "transcribe" / "back_transcribe"
+
+  # ---- 物种信息 (可选, 用于 phylogenetic prompting) ----
+  taxonomy_data: {}
+  random_lineage_dropout: 0.0
+  prompt_spacer_length: 0

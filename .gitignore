@@ -1,0 +1,34 @@
+# Python
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.mypy_cache/
+
+# Environments
+.env
+.venv/
+venv/
+
+# OS / editors
+.DS_Store
+.idea/
+.vscode/
+
+# Logs
+*.log
+wandb/
+
+# Large artifacts
+checkpoints/*
+!checkpoints/.gitkeep
+results/*
+!results/.gitkeep
+data/*
+!data/.gitkeep
+
+# Training / model files
+*.ckpt
+*.nemo
+*.bin
+*.idx
+*.npz

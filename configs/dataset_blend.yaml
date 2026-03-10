@@ -1,0 +1,16 @@
+# Evo2 训练数据混合配置 (Evo2BlendedDatasetConfig)
+# 指向预处理产生的 .bin/.idx 文件 (不带扩展名)
+#
+# dataset_prefix: 预处理输出文件的路径前缀 (不含 .bin/.idx 后缀)
+# dataset_split: train / validation / test
+# dataset_weight: 数据集权重 (多数据集混合时有用)
+
+# ---- 训练集 ----
+- dataset_prefix: /workspace/evo_fine_tune/data/processed/evo2_finetune_uint8_train_text_CharLevelTokenizer_document
+  dataset_split: train
+  dataset_weight: 1.0
+
+# ---- 验证集 ----
+- dataset_prefix: /workspace/evo_fine_tune/data/processed/evo2_finetune_uint8_valid_text_CharLevelTokenizer_document
+  dataset_split: validation
+  dataset_weight: 0.05
