@@ -12,7 +12,7 @@
 - 提供全量微调与 LoRA 微调两套训练入口
 - 提供 embedding 提取与基础评估脚本，便于下游分析
 
-## 仓库里有什么
+## 项目mu'lu
 
 ```text
 evo_fine_tune/
@@ -173,13 +173,6 @@ python src/evaluate.py \
 
 - 原始 1B checkpoint 训练配置偏向 FP8，非 H100 环境更适合使用 BF16 版本或 LoRA
 - `configs/*.yaml` 中当前路径按容器内 `/workspace/evo_fine_tune` 编写
-- 本仓库默认不提交原始数据、checkpoint 和实验结果
-
-## 当前限制
-
-- `extract_embeddings.py` 里的模型加载逻辑更接近参考实现，实际 API 可能需要按本地 BioNeMo 版本微调
-- 评估脚本包含可选依赖，如 `scipy`、`pandas`、`umap-learn`
-- 未内置模型权重和大规模数据集下载产物
 
 ## 参考资料
 
