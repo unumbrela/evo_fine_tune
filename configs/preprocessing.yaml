@@ -3,11 +3,15 @@
 #
 # 官方文档: https://docs.nvidia.com/bionemo-framework/2.6/API_reference/bionemo/evo2/data/preprocess/
 # 参考: HPI-Potsdam 使用 embed_reverse_complement: true, force_uppercase: true
+#
+# 注意: 路径使用绝对路径，根据你的环境修改
 
 # ---- 输入/输出 ----
+# 使用清洗后的 iGEM 数据 (全部类型 8190 条 / composite-only 3699 条)
+# 推荐先用全部类型跑通 pipeline, 再切换到 composite-only 对比效果
 - datapaths:
-    - /workspace/evo_fine_tune/data/raw/opengenome2_sample.fasta
-  output_dir: /workspace/evo_fine_tune/data/processed
+    - data/raw/igem_cleaned.fasta          # Adjust to your FASTA path
+  output_dir: data/processed
   output_prefix: evo2_finetune_uint8
 
   # ---- 数据划分 ----

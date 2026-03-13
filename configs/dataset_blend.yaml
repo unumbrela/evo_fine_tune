@@ -4,13 +4,22 @@
 # dataset_prefix: 预处理输出文件的路径前缀 (不含 .bin/.idx 后缀)
 # dataset_split: train / validation / test
 # dataset_weight: 数据集权重 (多数据集混合时有用)
+#
+# 注意: 预处理后的文件名格式为:
+#   {output_prefix}_{split}_text_CharLevelTokenizer_document.bin/.idx
+# 这里的路径需要与 preprocessing.yaml 中的 output_dir + output_prefix 一致
 
 # ---- 训练集 ----
-- dataset_prefix: /workspace/evo_fine_tune/data/processed/evo2_finetune_uint8_train_text_CharLevelTokenizer_document
+- dataset_prefix: data/processed/evo2_finetune_uint8_byte-level_train
   dataset_split: train
   dataset_weight: 1.0
 
 # ---- 验证集 ----
-- dataset_prefix: /workspace/evo_fine_tune/data/processed/evo2_finetune_uint8_valid_text_CharLevelTokenizer_document
+- dataset_prefix: data/processed/evo2_finetune_uint8_byte-level_val
   dataset_split: validation
+  dataset_weight: 0.05
+
+# ---- 测试集 ----
+- dataset_prefix: data/processed/evo2_finetune_uint8_byte-level_test
+  dataset_split: test
   dataset_weight: 0.05

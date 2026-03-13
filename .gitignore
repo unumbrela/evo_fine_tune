@@ -9,6 +9,12 @@ __pycache__/
 .venv/
 venv/
 
+TransformerEngine/
+bionemo-framework/
+
+# Local configs (contain machine-specific paths)
+configs/*.local.yaml
+
 # OS / editors
 .DS_Store
 .idea/

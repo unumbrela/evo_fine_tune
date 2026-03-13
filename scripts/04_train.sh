@@ -18,17 +18,24 @@ CKPT_DIR="${CKPT_DIR:-}"
 
 # 如果未指定 checkpoint 路径，尝试自动检测
 if [ -z "${CKPT_DIR}" ]; then
-    # 尝试常见路径
+    # 尝试常见路径 (优先级从高到低)
     for candidate in \
         "${PROJECT_DIR}/checkpoints/nemo2_evo2_1b_8k" \
         "${PROJECT_DIR}/checkpoints/evo2_1b_8k_bf16" \
-        "${HOME}/.cache/bionemo/evo2_1b-8k-bf16_1.0" \
         ; do
         if [ -d "${candidate}" ]; then
             CKPT_DIR="${candidate}"
             break
         fi
     done
+fi
+
+# 如果项目目录下没找到，搜索 bionemo cache 目录
+if [ -z "${CKPT_DIR}" ]; then
+    cache_hit=$(find "${HOME}/.cache/bionemo/" -maxdepth 1 -type d -name "*evo2*1b*untar" 2>/dev/null | head -1)
+    if [ -n "${cache_hit}" ]; then
+        CKPT_DIR="${cache_hit}"
+    fi
 fi
 
 if [ -z "${CKPT_DIR}" ]; then

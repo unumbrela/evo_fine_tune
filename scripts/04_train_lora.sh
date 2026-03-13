@@ -29,7 +29,6 @@ if [ -z "${CKPT_DIR}" ]; then
     for candidate in \
         "${PROJECT_DIR}/checkpoints/nemo2_evo2_1b_8k" \
         "${PROJECT_DIR}/checkpoints/evo2_1b_8k_bf16" \
-        "${HOME}/.cache/bionemo/evo2_1b-8k-bf16_1.0" \
         ; do
         if [ -d "${candidate}" ]; then
             CKPT_DIR="${candidate}"
@@ -38,8 +37,16 @@ if [ -z "${CKPT_DIR}" ]; then
     done
 fi
 
+# 搜索 bionemo cache 目录
 if [ -z "${CKPT_DIR}" ]; then
-    echo "ERROR: No checkpoint found."
+    cache_hit=$(find "${HOME}/.cache/bionemo/" -maxdepth 1 -type d -name "*evo2*1b*untar" 2>/dev/null | head -1)
+    if [ -n "${cache_hit}" ]; then
+        CKPT_DIR="${cache_hit}"
+    fi
+fi
+
+if [ -z "${CKPT_DIR}" ]; then
+    echo "ERROR: No checkpoint found. Set CKPT_DIR or run scripts/01a_download_checkpoint.sh first."
     exit 1
 fi
 
@@ -51,7 +58,7 @@ echo "============================================================"
 train_evo2 \
     -d "${DATASET_CONFIG}" \
     --dataset-dir "${DATASET_DIR}" \
-    --experiment-dir "${EXPERIMENT_DIR}" \
+    --result-dir "${EXPERIMENT_DIR}" \
     --experiment-name "${EXPERIMENT_NAME}" \
     --model-size "${MODEL_SIZE}" \
     --ckpt-dir "${CKPT_DIR}" \
@@ -64,7 +71,6 @@ train_evo2 \
     --min-lr "${MIN_LR}" \
     --warmup-steps "${WARMUP_STEPS}" \
     --lora-finetune \
-    --no-wandb \
     --create-tensorboard-logger \
     --val-check-interval 500 \
     --log-every-n-steps 10
